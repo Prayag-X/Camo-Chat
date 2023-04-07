@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "545685942426",
+    "project_id": "camo-chat",
+    "storage_bucket": "camo-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545685942426:android:af8c80bea40d179d706f23",
+        "android_client_info": {
+          "package_name": "com.example.camo_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545685942426-mf119cit4eu8rd4ligu4qro7s84a2i21.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.camo_chat",
+            "certificate_hash": "7844857fa6979558e3b40eb56695f7f50fcaa1e0"
+          }
+        },
+        {
+          "client_id": "545685942426-ej86rm4eetjj0p8rdat3gdqtfsgu7np5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHGdkL6ZgikuRB4ZIh9FqrvNzwnOOFnBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545685942426-1cl7650hvrkjsqr3fthtv7of4esk5vk6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "545685942426-298ovdgvcj692jmehmi6jdohte8f45i5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.camoChat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>545685942426-298ovdgvcj692jmehmi6jdohte8f45i5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.545685942426-298ovdgvcj692jmehmi6jdohte8f45i5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCU8hSzeh5p8QP0y8KkFwkzMmx9tMIavgE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>545685942426</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.camoChat</string>
+	<key>PROJECT_ID</key>
+	<string>camo-chat</string>
+	<key>STORAGE_BUCKET</key>
+	<string>camo-chat.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:545685942426:ios:2706b38ee3ed322f706f23</string>
+</dict>
+</plist>
