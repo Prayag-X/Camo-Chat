@@ -21,12 +21,12 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final controller = Get.find<Controller>();
-  TextEditingController textController = TextEditingController(text: '');
-  final formKey = GlobalKey<FormState>();
+  TextEditingController textController = TextEditingController(text: 'hola');
   bool showBlankError = true;
 
   Future<void> registerUser() async {
     controller.userName = textController.text;
+    print(controller.userName);
     await DatabaseUsers().registerUser(
       controller.userId,
       controller.userEmail,
@@ -63,76 +63,62 @@ class _RegisterState extends State<Register> {
                     color: Colors.white,
                     size: 30,
                   )),
-              LogoShower(logo: ImageConst.camoChatLogo, size: screenSize(context).width-180),
+              LogoShower(
+                  logo: ImageConst.camoChatLogo,
+                  size: screenSize(context).width - 180),
               const SizedBox(
                 width: 50,
               ),
             ],
           ),
 
-
-
-
-
           // TODO: ADD name Randomizer in the suffix icon ABC....
 
-
-
-
-
-          Form(
-            key: formKey,
-            child: SizedBox(
-              width: screenSize(context).width-100,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                  suffixIcon: Icon(
-                    Icons.abc_rounded,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red, width: 1),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red, width: 1),
-                  ),
-                ),
-                enabled: false,
-                style: const TextStyle(
+          SizedBox(
+            width: screenSize(context).width - 100,
+            child: TextFormField(
+              decoration: const InputDecoration(
+                prefixIcon: Icon(
+                  Icons.person,
                   color: Colors.white,
-                  fontSize: 18
+                  size: 20,
                 ),
-                controller: textController,
+                suffixIcon: Icon(
+                  Icons.abc_rounded,
+                  color: Colors.white,
+                  size: 40,
+                ),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 1),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 1),
+                ),
               ),
+              enabled: false,
+              style: const TextStyle(color: Colors.white, fontSize: 18),
+              controller: textController,
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           TextButton(
             onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                await EasyLoading.show(
-                    maskType: EasyLoadingMaskType.black,
-                    indicator: const CircularProgressIndicator());
-                await registerUser();
-                EasyLoading.dismiss();
-              } else {
-                setState(() => showBlankError = false);
-              }
+              await EasyLoading.show(
+                  maskType: EasyLoadingMaskType.black,
+                  indicator: const CircularProgressIndicator());
+              await registerUser();
+              EasyLoading.dismiss();
             },
             style: TextButton.styleFrom(
               padding: const EdgeInsets.all(0),
             ),
             child: Container(
               height: 40,
-              width: screenSize(context).width-100,
+              width: screenSize(context).width - 100,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color: Themes.themeRed.withOpacity(0.3),
@@ -142,14 +128,11 @@ class _RegisterState extends State<Register> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: screenSize(context).width-162,
+                    width: screenSize(context).width - 162,
                     child: const Center(
                       child: Text(
                         'Let\'s go...',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ),
                   ),

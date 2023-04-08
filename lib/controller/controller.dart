@@ -9,4 +9,5 @@ class Controller extends GetxController {
   var userName = "";
 
   var showLoginPage = true.obs;
+  var homePageDmOrGroup = 0.obs;
 }

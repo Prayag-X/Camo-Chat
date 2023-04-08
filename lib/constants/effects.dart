@@ -6,6 +6,7 @@ class Effects {
   static const animationDuration = 300;
 
   static const appBarOpacityPrimary = 0.5;
+  static const appBarAnimationDuration = 500;
 
   static const blurNone = 0.0;
   static const blurVeryLight = 2.0;
