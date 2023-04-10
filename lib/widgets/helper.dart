@@ -4,17 +4,16 @@ Size screenSize(context) => MediaQuery.of(context).size;
 
 double statusBarSize(context) => MediaQuery.of(context).viewPadding.top;
 
-void nextScreen(context, String pageName) {
-  Navigator.pushNamed(context, '/$pageName');
+Future<void> nextScreen(context, String pageName) async{
+  await Navigator.pushNamed(context, '/$pageName');
 }
 
-void nextScreenReplace(context, String pageName) {
-  Navigator.pushReplacementNamed(context, '/$pageName');
+Future<void> nextScreenReplace(context, String pageName) async{
+  await Navigator.pushReplacementNamed(context, '/$pageName');
 }
 
-void nextScreenOnly(context, String pageName) {
-  Navigator.of(context)
-      .pushNamedAndRemoveUntil('/$pageName', ModalRoute.withName('/'));
+Future<void> nextScreenOnly(context, String pageName) async{
+  await Navigator.of(context).pushNamedAndRemoveUntil('/$pageName', ModalRoute.withName('/'));
 }
 
 void screenPop(context) {
