@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "545685942426-fv4o8mk2hbststfg816p9i38eunumgcu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.camo_chat",
+            "certificate_hash": "8e982ef40f22212e2af5809171aad9ee5829c6bb"
+          }
+        },
+        {
           "client_id": "545685942426-mf119cit4eu8rd4ligu4qro7s84a2i21.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
