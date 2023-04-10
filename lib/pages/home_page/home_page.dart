@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import '../../constants/effects.dart';
 import '../../constants/themes.dart';
 import '../../controller/controller.dart';
+import '../../firebase/database.dart';
+import '../../models/dm.dart';
 import '../../widgets/helper.dart';
 import 'home_page_dm.dart';
 import 'home_page_group.dart';
@@ -27,6 +29,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   setChatPageGroup() {
     controller.homePageDmOrGroup.value = 1;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Database().tryFunction();
+    Database().initUserData();
   }
 
   @override
@@ -91,18 +100,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   duration: const Duration(
                       milliseconds: Effects.appBarAnimationDuration),
                   color: controller.homePageDmOrGroup.value == 0
-                      ? Themes.appBarColorDm
+                      ? Themes.themeDm
                           .withOpacity(Effects.appBarOpacityPrimary)
-                      : Themes.appBarColorGroup
+                      : Themes.themeGroup
                           .withOpacity(Effects.appBarOpacityPrimary),
                   child: Column(
                     children: [
                       Container(height: statusBarSize(context)),
 
-
-                      // TODO: Add text widget to show the current page details ("DM" when in DM page, "Group" when in group page, "Search bla bla" whn in serach page, "Person or group name" when clicked on any)
-
-
+                      controller.homePageDmOrGroup.value == 0 && controller.showDmOrChat.value == 1 ? GestureDetector(
+                        onTap: () {
+                          controller.showDmOrChat.value = 0;
+                          controller.selectedDm.value = Dm(members: [], messages: []);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          size: 30,
+                        ),
+                      ) : const SizedBox.shrink(),
                     ],
                   )),
             ),

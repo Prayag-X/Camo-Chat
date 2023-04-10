@@ -1,3 +1,4 @@
+import 'package:camo_chat/firebase/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,11 +27,10 @@ class _LoginState extends State<Login> {
   Future<void> nextPageDecider(User? user) async {
     if (user != null) {
       controller.userId = user.uid;
-      controller.userEmail = user.email!;
       bool isUserRegistered = await _auth.isUserRegistered(user.uid);
       if (isUserRegistered) {
         if (!mounted) return;
-        nextScreenReplace(context, 'HomePage');
+        await nextScreenReplace(context, 'HomePage');
       } else {
         controller.showLoginPage.value = false;
       }

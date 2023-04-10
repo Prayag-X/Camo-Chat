@@ -6,7 +6,7 @@ import '../../constants/themes.dart';
 import '../../constants/images.dart';
 import '../../constants/effects.dart';
 import '../../controller/controller.dart';
-import '../../firebase/database_users.dart';
+import '../../firebase/database.dart';
 import '../../widgets/loaders.dart';
 import '../../widgets/background.dart';
 import '../../widgets/helper.dart';
@@ -27,7 +27,6 @@ class _LoginPageState extends State<LoginPage>
     with TickerProviderStateMixin {
 
   final Authentication _auth = Authentication();
-  final DatabaseUsers _dbUser = DatabaseUsers();
   final controller = Get.find<Controller>();
   bool loading = true;
 
@@ -36,9 +35,6 @@ class _LoginPageState extends State<LoginPage>
       bool isUserRegistered = await _auth.isUserRegistered(user.uid);
       if (isUserRegistered) {
         controller.userId = user.uid;
-        controller.userEmail = user.email!;
-        controller.userName = await _dbUser.getUserName(user.uid);
-        // await _auth.logout();
         if (!mounted) return;
         nextScreenReplace(context, 'HomePage');
       } else {

@@ -4,4 +4,5 @@ class ImageConst {
   static const homePageGroup = 'assets/background/homepage2.jpg';
   static const googleLogo = 'assets/icon/google.png';
   static const camoChatLogo = 'assets/icon/camo_chat.png';
+  static const dmLogo = 'assets/icon/dm.png';
 }

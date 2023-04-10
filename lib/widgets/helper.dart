@@ -4,21 +4,16 @@ Size screenSize(context) => MediaQuery.of(context).size;
 
 double statusBarSize(context) => MediaQuery.of(context).viewPadding.top;
 
-Future<void> nextScreen(context, String pageName) async{
-  await Navigator.pushNamed(context, '/$pageName');
-}
+nextScreen(context, String pageName) async =>
+    await Navigator.pushNamed(context, '/$pageName');
 
-Future<void> nextScreenReplace(context, String pageName) async{
-  await Navigator.pushReplacementNamed(context, '/$pageName');
-}
+nextScreenReplace(context, String pageName) async =>
+    await Navigator.pushReplacementNamed(context, '/$pageName');
 
-Future<void> nextScreenOnly(context, String pageName) async{
-  await Navigator.of(context).pushNamedAndRemoveUntil('/$pageName', ModalRoute.withName('/'));
-}
+nextScreenOnly(context, String pageName) async => await Navigator.of(context)
+    .pushNamedAndRemoveUntil('/$pageName', ModalRoute.withName('/'));
 
-void screenPop(context) {
-  Navigator.of(context).pop();
-}
+screenPop(context) => Navigator.of(context).pop();
 
 Color darkenColor(Color color, [double amount = .1]) {
   assert(amount >= 0 && amount <= 1);
@@ -34,15 +29,14 @@ Color lightenColor(Color color, [double amount = .1]) {
   return hslLight.toColor();
 }
 
-void showSnackBar(context, String message, int duration) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(
-        message,
-        style: const TextStyle(fontSize: 14, color: Colors.white),
+showSnackBar(context, String message, int duration) =>
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(fontSize: 14, color: Colors.white),
+        ),
+        backgroundColor: Colors.black54,
+        duration: Duration(seconds: duration),
       ),
-      backgroundColor: Colors.black54,
-      duration: Duration(seconds: duration),
-    ),
-  );
-}
+    );

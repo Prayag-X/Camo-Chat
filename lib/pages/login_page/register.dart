@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../constants/images.dart';
 import '../../constants/themes.dart';
 import '../../controller/controller.dart';
-import '../../firebase/database_users.dart';
+import '../../firebase/database.dart';
 import '../../firebase/authentication.dart';
 import '../../widgets/helper.dart';
 import '../../widgets/logo_shower.dart';
@@ -22,8 +23,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final controller = Get.find<Controller>();
-  TextEditingController textController = TextEditingController(text: '');
-  final formKey = GlobalKey<FormState>();
+  TextEditingController textController = TextEditingController(text: 'hola');
   bool showBlankError = true;
 
   String generateRandomUsername() {
@@ -123,23 +123,17 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> registerUser() async {
-    print("registerUser() called"); 
-    controller.userName = textController.text;
-    await DatabaseUsers().registerUser(
+    await Database().registerUser(
       controller.userId,
-      controller.userEmail,
       textController.text,
     );
     if (!mounted) return;
-    print("Next screen replaced called"); 
-    nextScreenReplace(context, 'HomePage');
+    await nextScreenReplace(context, 'HomePage');
   }
 
   Future<void> goBack() async {
     await Authentication().logout();
     controller.userId = "";
-    controller.userName = "";
-    controller.userEmail = "";
     controller.showLoginPage.value = true;
   }
 
@@ -162,80 +156,67 @@ class _RegisterState extends State<Register> {
                     color: Colors.white,
                     size: 30,
                   )),
-              LogoShower(logo: ImageConst.camoChatLogo, size: screenSize(context).width-180),
+              LogoShower(
+                  logo: ImageConst.camoChatLogo,
+                  size: screenSize(context).width - 180),
               const SizedBox(
                 width: 50,
               ),
             ],
           ),
-
-
-          // Display the randomized name in app
-          Form(
-            key: formKey,
-            child: SizedBox(
-              width: screenSize(context).width-100,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                  suffixIcon: GestureDetector(
-                    onTap: () async {
-                      setState(() {
-                        final username = generateRandomUsername();
-                        textController.text = username;
-                        controller.userName = username;
-                      });
-
-                      // Call the registerUser function
-                      // await registerUser();
-                    },
-                    child: Icon(
-                      Icons.abc_rounded,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                  ),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red, width: 1),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red, width: 1),
-                  ),
-                ),
-                enabled: true,
-                style: const TextStyle(
+          SizedBox(
+            width: screenSize(context).width - 100,
+            child: TextFormField(
+              decoration: InputDecoration(
+                prefixIcon: const Icon(
+                  Icons.person,
                   color: Colors.white,
-                  fontSize: 18
+                  size: 20,
                 ),
-                controller: textController,
+                suffixIcon: GestureDetector(
+                  onTap: () async {
+                    setState(() {
+                      final username = generateRandomUsername();
+                      textController.text = username;
+                    });
+                  },
+                  child: const Icon(
+                    Icons.abc_rounded,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 1),
+                ),
+                disabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 1),
+                ),
               ),
+              enabled: true,
+              style: const TextStyle(color: Colors.white, fontSize: 18),
+              controller: textController,
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           TextButton(
             onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                await EasyLoading.show(
-                    maskType: EasyLoadingMaskType.black,
-                    indicator: const CircularProgressIndicator());
-                await registerUser();
-                EasyLoading.dismiss();
-              } else {
-                setState(() => showBlankError = false);
-              }
+              await EasyLoading.show(
+                  maskType: EasyLoadingMaskType.black,
+                  indicator: const CircularProgressIndicator());
+              await registerUser();
+              EasyLoading.dismiss();
             },
             style: TextButton.styleFrom(
               padding: const EdgeInsets.all(0),
             ),
             child: Container(
               height: 40,
-              width: screenSize(context).width-100,
+              width: screenSize(context).width - 100,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color: Themes.themeRed.withOpacity(0.3),
@@ -245,14 +226,11 @@ class _RegisterState extends State<Register> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: screenSize(context).width-162,
+                    width: screenSize(context).width - 162,
                     child: const Center(
                       child: Text(
                         'Let\'s go...',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ),
                   ),
