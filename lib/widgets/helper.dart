@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 Size screenSize(context) => MediaQuery.of(context).size;
 
+double bottomInsets(context) => MediaQuery.of(context).viewInsets.bottom;
+
 double statusBarSize(context) => MediaQuery.of(context).viewPadding.top;
 
 nextScreen(context, String pageName) async =>
