@@ -84,44 +84,102 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   AppBar appBarShared(context) {
-    return AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0.0,
-        titleSpacing: 0,
-        leadingWidth: 0,
-        backgroundColor: const Color(0x00000000),
-        toolbarHeight: 70,
-        flexibleSpace: Obx(
-          () => ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                  sigmaX: Effects.blurMedium, sigmaY: Effects.blurMedium),
-              child: AnimatedContainer(
-                  duration: const Duration(
-                      milliseconds: Effects.appBarAnimationDuration),
-                  color: controller.homePageDmOrGroup.value == 0
-                      ? Themes.themeDm
-                          .withOpacity(Effects.appBarOpacityPrimary)
-                      : Themes.themeGroup
-                          .withOpacity(Effects.appBarOpacityPrimary),
-                  child: Column(
-                    children: [
-                      Container(height: statusBarSize(context)),
+    final controller = Get.find<Controller>();
+    final double originalAppBarHeight = 70.0;
+    double appBarHeight = controller.showSearchField.value
+        ? 150.0
+        : originalAppBarHeight;
 
-                      controller.homePageDmOrGroup.value == 0 && controller.showDmOrChat.value == 1 ? GestureDetector(
-                        onTap: () {
-                          controller.showDmOrChat.value = 0;
-                          controller.selectedDm.value = Dm(members: [], messages: []);
-                        },
-                        child: const Icon(
-                          Icons.arrow_back_rounded,
-                          size: 30,
-                        ),
-                      ) : const SizedBox.shrink(),
-                    ],
-                  )),
+    // Listen for changes to the `showSearchField` property
+    ever(controller.showSearchField, (bool showSearchField) {
+      appBarHeight = showSearchField ? 150.0 : originalAppBarHeight;
+    });
+
+    return AppBar(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            controller.homePageDmOrGroup.value == 0 ? 'Messages' : 'Groups',
+            style: TextStyle(
+              fontFamily: 'Roboto', // Replace with your desired font family
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
-        ));
+        ],
+      ),
+      leading: IconButton(
+        icon: Icon(Icons.menu),
+        onPressed: () =>
+            Scaffold.of(context).openDrawer(), // TODO: Open navigation drawer from here
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            controller.showSearchField.value = !controller.showSearchField.value;
+          },
+        ),
+      ],
+      automaticallyImplyLeading: false,
+      elevation: 0.0,
+      titleSpacing: 0,
+      leadingWidth: 0,
+      backgroundColor: const Color(0x00000000),
+      toolbarHeight: appBarHeight,
+      flexibleSpace: Obx(() {
+        return ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: Effects.blurMedium,
+              sigmaY: Effects.blurMedium,
+            ),
+            child: Container(
+              height: appBarHeight,
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: AnimatedOpacity(
+                      duration: Duration(milliseconds: 200),
+                      opacity: controller.showSearchField.value ? 1.0 : 0.0,
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: 'Search',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: controller.showSearchField.value ? 70.0 : 0.0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      color: controller.homePageDmOrGroup.value == 0
+                          ? Themes.themeDm.withOpacity(
+                          Effects.appBarOpacityPrimary)
+                          : Themes.themeGroup.withOpacity(
+                          Effects.appBarOpacityPrimary),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }),
+    );
   }
 }
