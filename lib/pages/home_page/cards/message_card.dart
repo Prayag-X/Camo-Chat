@@ -11,6 +11,8 @@ import '../../../models/dm.dart';
 import '../../../models/user.dart';
 import '../../../widgets/loaders.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MessageCard extends StatefulWidget {
   const MessageCard({Key? key, required this.messageId}) : super(key: key);
   final String messageId;
@@ -27,11 +29,32 @@ class _MessageCardState extends State<MessageCard> {
   bool blank = false;
   bool loading = true;
 
+  bool liked = false;
+  bool reported = false;
+  int likesCount = 0;
+  int reportsCount = 0;
+
   getMessage() async {
     if(widget.messageId!='blank') {
       message = await database.readMessage(widget.messageId);
       message?.sender = await database.getUser(message!.senderId);
       message?.id = widget.messageId;
+
+      if(message!.likes > 0){
+        setState(() {
+          liked = true;
+          likesCount  = 1;
+        });
+
+      }
+
+      if(message!.reports > 0){
+        setState(() {
+          reported = true;
+          reportsCount  = 1;
+        });
+
+      }
     }
     else {
       setState(() {
@@ -46,6 +69,7 @@ class _MessageCardState extends State<MessageCard> {
         }
       });
     }
+
   }
 
   @override
@@ -55,14 +79,32 @@ class _MessageCardState extends State<MessageCard> {
     // controller.scrollDown();
   }
 
-  // Function to handle like button pressed
-  void onLikePressed() {
-    // TODO: Implement function to handle like button press
+  void _toggleLike(String? messageId) async {
+    print('toggleLike called');
+    setState(() {
+      liked = !liked;
+      likesCount += liked ? 1 : -1;
+    });
+    await FirebaseFirestore.instance
+        .collection('Messages')
+        .doc(messageId)
+        .update({'likes': likesCount})
+        .then((value) => print('updateLikes successful'))
+        .catchError((error) => print('updateLikes error: $error'));
   }
 
-  // Function to handle report button pressed
-  void onReportPressed() {
-    // TODO: Implement function to handle report button press
+  void _toggleReport(String? messageId) async {
+    print('toggleReport called');
+    setState(() {
+      reported = !reported;
+      reportsCount += reported ? 1 : -1;
+    });
+    await FirebaseFirestore.instance
+        .collection('Messages')
+        .doc(messageId)
+        .update({'reports': reportsCount})
+        .then((value) => print('updateReport successful'))
+        .catchError((error) => print('updateReport error: $error'));
   }
 
   @override
@@ -127,17 +169,21 @@ class _MessageCardState extends State<MessageCard> {
                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
-                                icon: Icon(Icons.thumb_up, size: 15),
-                                color: Colors.white,
+                                icon: Icon(
+                                  liked ? Icons.thumb_up_alt_rounded : Icons.thumb_up_outlined,
+                                  color: liked ? Colors.blue : Colors.white,
+                                ),
                                 onPressed: () {
-                                  // TODO: Implement like functionality
+                                  _toggleLike(message?.id); // pass the message ID here
                                 },
                               ),
                               IconButton(
-                                icon: Icon(Icons.report, size: 15),
-                                color: Colors.redAccent,
+                                icon: Icon(
+                                  reported ? Icons.report : Icons.report_outlined,
+                                  color: reported ? Colors.red : Colors.white,
+                                ),
                                 onPressed: () {
-                                  // TODO: Implement report functionality
+                                  _toggleReport(message?.id); // pass the message ID here
                                 },
                               ),
                             ],
