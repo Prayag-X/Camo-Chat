@@ -56,6 +56,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545685942426:android:2fecd2836888401d706f23",
+        "android_client_info": {
+          "package_name": "com.example.camo_chat_mod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545685942426-ej86rm4eetjj0p8rdat3gdqtfsgu7np5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHGdkL6ZgikuRB4ZIh9FqrvNzwnOOFnBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545685942426-1cl7650hvrkjsqr3fthtv7of4esk5vk6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "545685942426-298ovdgvcj692jmehmi6jdohte8f45i5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.camoChat"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

@@ -56,12 +56,12 @@ class _LoginState extends State<Login> {
           LogoShower(logo: ImageConst.camoChatLogo, size: screenSize(context).width-180),
           TextButton(
             onPressed: () async {
-              await EasyLoading.show(
-                maskType: EasyLoadingMaskType.black,
-                indicator: const CircularProgressIndicator()
-              );
+              // await EasyLoading.show(
+              //   maskType: EasyLoadingMaskType.black,
+              //   indicator: const CircularProgressIndicator()
+              // );
               await signIn();
-              EasyLoading.dismiss();
+              // EasyLoading.dismiss();
             },
             style: TextButton.styleFrom(
               padding: const EdgeInsets.all(0),

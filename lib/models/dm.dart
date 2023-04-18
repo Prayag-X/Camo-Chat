@@ -12,7 +12,7 @@ class Dm {
   String? id;
   User? otherUser;
   List<String> members;
-  List<String> messages;
+  List<String>? messages;
   List<Message>? messagesObj;
 
   factory Dm.fromJson(Map<String, dynamic> json) => Dm(

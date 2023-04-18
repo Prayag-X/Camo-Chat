@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
@@ -71,6 +73,16 @@ class Database {
     });
   }
 
+  reportMessage(String messageId) async {
+    Message message = await collectionMessages
+        .doc(messageId)
+        .get()
+        .then((snapshot) => messageFromJson(snapshot.data()!));
+    await collectionMessages
+        .doc(messageId)
+        .update({'reports': message.reports + 1});
+  }
+
   // POST ------------------------------------------------------
 
   Future<Post> readPost(String postId) async => await collectionPosts
@@ -94,6 +106,14 @@ class Database {
     });
   }
 
+  reportPost(String postId) async {
+    Message post = await collectionPosts
+        .doc(postId)
+        .get()
+        .then((snapshot) => messageFromJson(snapshot.data()!));
+    await collectionPosts.doc(postId).update({'reports': post.reports + 1});
+  }
+
   // DM ------------------------------------------------------
 
   Dm _dmFromSnap(DocumentSnapshot snapshot) =>
@@ -104,7 +124,7 @@ class Database {
       .snapshots(includeMetadataChanges: true)
       .map(_dmFromSnap);
 
-  openDM(String otherUserId) async {
+  Future<Dm> openDM(String otherUserId) async {
     DocumentReference newDM = collectionDM.doc();
     String newDMId = await newDM.get().then((snapshot) => snapshot.id);
 
@@ -115,7 +135,66 @@ class Database {
     await collectionUsers.doc(controller.userId).update({
       'dm': FieldValue.arrayUnion([newDMId])
     });
+    await collectionUsers.doc(otherUserId).update({
+      'dm': FieldValue.arrayUnion([newDMId])
+    });
+    var openedDM = await newDM.get();
+    return dmFromJson(openedDM.data() as Map<String, dynamic>);
   }
+
+  Future<List<User>> searchDM() async {
+    List<User> result = [];
+    List<String> otherUsers = [];
+    for (var dm in controller.userData.value.dm) {
+      await collectionDM.doc(dm).get().then((value) {
+        var dmObj = dmFromJson(value.data() as Map<String, dynamic>);
+        if (dmObj.members[0] == controller.userId) {
+          otherUsers.add(dmObj.members[1]);
+        } else {
+          otherUsers.add(dmObj.members[0]);
+        }
+      });
+    }
+    var collection = await collectionUsers.get();
+    collection.docs.forEach((doc) {
+      if (doc.id.trim() != controller.userId &&
+          !otherUsers.contains(doc.id.trim())) {
+        User user = userFromJson(doc.data());
+        user.userId = doc.id;
+        result.add(user);
+      }
+    });
+    var blank = User(
+        userName: 'blank',
+        dm: [],
+        groups: [],
+        isBanned: false,
+        moddedReports: 0);
+    blank.userId = 'blank';
+    result.insert(0, blank);
+    return result;
+  }
+
+  // Future<StreamSubscription<dynamic>> listenDm() async {
+  //   DocumentReference dmDataDoc =
+  //       collectionDM.doc(controller.selectedDm.value.id);
+  //   StreamSubscription docListener = dmDataDoc
+  //       .snapshots(includeMetadataChanges: true)
+  //       .listen((snapshot) async {
+  //     await dmDataDoc.get().then((DocumentSnapshot documentSnapshot) {
+  //       var dm = dmFromJson(documentSnapshot.data() as Map<String, dynamic>);
+  //       for (var message in dm.messages) {
+  //         if (!(controller.selectedDmMessages.contains(message))) {
+  //           controller.selectedDmMessages.add(message);
+  //           print(message);
+  //         }
+  //       }
+  //       // print(controller.userData.value.userName);
+  //       controller.userDataLoaded.value = true;
+  //     });
+  //   });
+  //   return docListener;
+  // }
 
   // GROUP --------------------------------------------------
 
@@ -141,17 +220,17 @@ class Database {
     });
   }
 
-  Future<void> tryFunction() async {
-    // var example = await FirebaseFirestore.instance.collection('Posts').get();
-    // example.docs.forEach((element) {
-    //   var ex = postFromJson(element.data());
-    //   print(ex.content);
-    //   print(json.encode(element.data(),
-    //       toEncodable: (val) => (val as Timestamp).toDate().toString()));
-    // });
-    // var x = collectionMessages.doc();
-    // await x.set({'content': 'holaaa2', 'sender_id': 'gg', 'timestamp': DateTime.now()});
-    // var doc_id = await x.get();
-    // await collectionDM.doc('AB').update({'messages': FieldValue.arrayUnion([doc_id.id])});
-  }
+  // Future<void> tryFunction() async {
+  // var example = await FirebaseFirestore.instance.collection('Posts').get();
+  // example.docs.forEach((element) {
+  //   var ex = postFromJson(element.data());
+  //   print(ex.content);
+  //   print(json.encode(element.data(),
+  //       toEncodable: (val) => (val as Timestamp).toDate().toString()));
+  // });
+  // var x = collectionMessages.doc();
+  // await x.set({'content': 'holaaa2', 'sender_id': 'gg', 'timestamp': DateTime.now()});
+  // var doc_id = await x.get();
+  // await collectionDM.doc('AB').update({'messages': FieldValue.arrayUnion([doc_id.id])});
+  // }
 }

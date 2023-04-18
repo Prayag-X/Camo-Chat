@@ -23,7 +23,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final controller = Get.find<Controller>();
-  TextEditingController textController = TextEditingController(text: 'hola');
+  TextEditingController textController = TextEditingController(text: '');
   bool showBlankError = true;
 
   String generateRandomUsername() {
@@ -205,11 +205,11 @@ class _RegisterState extends State<Register> {
           ),
           TextButton(
             onPressed: () async {
-              await EasyLoading.show(
-                  maskType: EasyLoadingMaskType.black,
-                  indicator: const CircularProgressIndicator());
+              // await EasyLoading.show(
+              //     maskType: EasyLoadingMaskType.black,
+              //     indicator: const CircularProgressIndicator());
               await registerUser();
-              EasyLoading.dismiss();
+              // EasyLoading.dismiss();
             },
             style: TextButton.styleFrom(
               padding: const EdgeInsets.all(0),

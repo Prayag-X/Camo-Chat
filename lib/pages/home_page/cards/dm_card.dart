@@ -46,8 +46,9 @@ class _DMCardState extends State<DMCard> {
               otherUserId = dm.members[0];
             }
             return TextButton(
-              onPressed: () {
+              onPressed: () async {
                 controller.selectedDm.value = dm;
+                // controller.selectedDmStream = await database.listenDm();
                 controller.showDmOrChat.value = 1;
               },
               style: TextButton.styleFrom(
@@ -92,9 +93,9 @@ class _DMCardState extends State<DMCard> {
                                   style: textStyleName,
                                 );
                               }),
-                          const SizedBox(height: 1,),
-                          FutureBuilder<Message>(
-                              future: database.readMessage(dm.messages.last),
+                          dm.messages!.isNotEmpty ? const SizedBox(height: 1,) : const SizedBox.shrink(),
+                          dm.messages!.isNotEmpty ? FutureBuilder<Message>(
+                              future: database.readMessage(dm.messages!.last),
                               builder: (_, message) {
                                 if (message.connectionState ==
                                     ConnectionState.waiting) {
@@ -137,7 +138,7 @@ class _DMCardState extends State<DMCard> {
                                     ),
                                   ],
                                 );
-                              }),
+                              }) : const SizedBox.shrink(),
                         ],
                       ),
                     ],
