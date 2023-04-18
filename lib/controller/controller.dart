@@ -13,9 +13,12 @@ class Controller extends GetxController {
   var accelerometerEvent = AccelerometerEvent(0, 0, 0).obs;
 
   var showLoginPage = true.obs;
+  var showSearchField = false.obs;
   var homePageDmOrGroup = 0.obs;
+
   var showDmOrChat = 0.obs;
   var showGroupOrChat = 0.obs;
+
   var selectedDm = Dm(members: [], messages: []).obs;
   var selectedDmStream;
   var selectedDmMessages = <String>[].obs;
