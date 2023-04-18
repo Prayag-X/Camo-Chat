@@ -66,10 +66,17 @@ class Database {
       'sender_id': controller.userId,
       'timestamp': DateTime.now(),
       'likes': 0,
-      'reports': 0
+      'reports': 0,
+      'is_modded': false
     });
     await collectionDM.doc(dmId).update({
       'messages': FieldValue.arrayUnion([newMessageId])
+    });
+  }
+
+  likeMessage(String messageId) async {
+    await collectionMessages.doc(messageId).update({
+      'likes': FieldValue.increment(1),
     });
   }
 
