@@ -115,6 +115,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   AppBar appBarShared(context) {
     return AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              controller.homePageDmOrGroup.value == 0 ? 'Messages' : 'Groups',
+              style: TextStyle(
+                fontFamily: 'Roboto', // Replace with your desired font family
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
         automaticallyImplyLeading: false,
         elevation: 0.0,
         titleSpacing: 0,
