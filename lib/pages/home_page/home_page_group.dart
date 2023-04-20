@@ -60,6 +60,9 @@ class _HomePageGroupState extends State<HomePageGroup> {
     super.dispose();
   }
 
+  final List<String> writerNames = ['Salary Discussion', 'Toxicity in Workplace', 'Anxiety & Depression', 'LGBTQIA+'];
+  final List<String> postContents = [ "I just got a new job offer and I'm not sure if I should negotiate for a higher salary. I don't want to come off as greedy, but I also don't want to sell myself short. Has anyone had success negotiating their salary before?", "I'm feeling really burnt out at work lately because of the toxic environment. My boss is always putting me down and my coworkers gossip behind my back. It's affecting my mental health and I'm not sure what to do. Any advice?", "I've been struggling with anxiety for as long as I can remember. It's hard to explain to people who don't experience it, but the constant worry and fear can be overwhelming. I've tried therapy and medication, but it's still a daily struggle. I'm open to any advice or tips on how to manage anxiety. I lost my father last year, and the pain is still so raw. It's hard to go through daily life without feeling his absence.", "I've known that I'm gay for a long time now, but I've never felt comfortable talking to my family about it. They're very religious, and I'm afraid that they won't accept me for who I am. I want to be honest with them, but I don't know how to approach the subject without causing conflict. Has anyone else gone through this experience, and how did you handle it?" ];
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -70,6 +73,46 @@ class _HomePageGroupState extends State<HomePageGroup> {
           blurValue: Effects.blurVeryLight,
           blackValue: Effects.blackMedium,
         ),
+
+            ListView.builder(
+            itemCount: writerNames.length,
+            itemBuilder: (BuildContext context, int index) {
+            return Container(
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              // height: 100,
+              // width: 100,
+              decoration: BoxDecoration(
+              border: Border.all(
+              color: Colors.white38,
+              ),
+              borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          writerNames[index],
+                          style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.redAccent, // change color of post title
+                        ),
+                        ),
+                          SizedBox(height: 10),
+                          Text(
+                          postContents[index],
+                          style: TextStyle(fontSize: 16, color: Colors.white60),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 10,
+                          ),
+
+                        ],
+                      ),
+                  );
+                },
+            )
+
         // Obx(() {
         //   if (controller.showDmOrChat.value == 0) {
         //     return DMView();
